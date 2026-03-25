@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Answer } from "@/types"
 import { getNow } from "@/lib/time"
+import { motion } from "framer-motion"
+import ProgressBar from "@/components/ProgressBar"
 
 const questions = [
   {
@@ -47,9 +49,11 @@ export default function TestPage() {
     const newAnswers = [...answers, answer]
     setAnswers(newAnswers)
 
+    // ✅ MICRO FEEDBACK (here)
+    alert("Nice! ⚡")
+
     if (current + 1 < questions.length) {
       setCurrent(current + 1)
-
       startTimeRef.current = getNow()
     } else {
       localStorage.setItem("answers", JSON.stringify(newAnswers))
@@ -60,18 +64,29 @@ export default function TestPage() {
   const q = questions[current]
 
   return (
-    <div className="p-6 text-white bg-black min-h-screen">
-      <h2 className="text-xl mb-4">{q.question}</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4">
+      <div className="w-full max-w-md">
+        <ProgressBar current={current + 1} total={questions.length} />
 
-      {q.options.map(opt => (
-        <button
-          key={opt}
-          onClick={() => handleAnswer(opt)}
-          className="block w-full bg-gray-800 p-3 mb-2 rounded"
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          {opt}
-        </button>
-      ))}
+          <h2 className="text-xl mb-6 text-center">{q.question}</h2>
+
+          {q.options.map(opt => (
+            <button
+              key={opt}
+              onClick={() => handleAnswer(opt)}
+              className="w-full bg-gray-800 hover:bg-purple-600 transition p-4 mb-3 rounded-xl"
+            >
+              {opt}
+            </button>
+          ))}
+        </motion.div>
+      </div>
     </div>
   )
 }
