@@ -46,7 +46,14 @@ export default function ResultPage() {
         animal
       })
 
-      await supabase.from("results").insert([{ iq, personality, love }])
+      await supabase.from("results").insert([
+        {
+          iq,
+          personality,
+          love,
+          animal: animal.name
+        }
+      ])
 
       setTimeout(() => setLoading(false), 2000)
     }
@@ -63,13 +70,22 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-6">
+
       <ShareCard
         iq={result.iq}
         personality={result.personality}
         love={result.love}
         animal={result.animal}
       />
+
+      <button
+        onClick={() => (window.location.href = "/leaderboard")}
+        className="bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded-xl"
+      >
+        View Leaderboard 🏆
+      </button>
+
     </div>
   )
 }
