@@ -6,6 +6,7 @@ import { getPersonality } from "@/lib/personality"
 import { getLoveArchetype } from "@/lib/love"
 import { Answer } from "@/types"
 import { supabase } from "@/lib/supabase"
+import ShareCard from "@/components/ShareCard"
 
 export default function ResultPage() {
   const [loading, setLoading] = useState(true)
@@ -30,11 +31,7 @@ export default function ResultPage() {
       setResult({ iq, personality, love })
 
       await supabase.from("results").insert([
-        {
-          iq,
-          personality,
-          love
-        }
+        { iq, personality, love }
       ])
 
       setTimeout(() => setLoading(false), 2000)
@@ -52,25 +49,12 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-6">Your Result</h1>
-
-      <div className="bg-gray-900 p-6 rounded-2xl w-full max-w-md space-y-4">
-        <p className="text-xl">🧠 IQ: {result.iq}</p>
-        <p>🧬 Personality: {result.personality}</p>
-        <p className="text-pink-400">❤️ {result.love}</p>
-      </div>
-
-      <button
-        onClick={() =>
-          navigator.share?.({
-            text: `I got IQ ${result.iq} and ${result.personality}! Can you beat me?`
-          })
-        }
-        className="mt-6 bg-purple-600 px-6 py-3 rounded-xl"
-      >
-        Share Result 🔥
-      </button>
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <ShareCard
+        iq={result.iq}
+        personality={result.personality}
+        love={result.love}
+      />
     </div>
   )
 }
