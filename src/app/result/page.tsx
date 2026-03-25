@@ -7,8 +7,13 @@ import { getLoveArchetype } from "@/lib/love"
 import { Answer } from "@/types"
 import { supabase } from "@/lib/supabase"
 import ShareCard from "@/components/ShareCard"
+import { useLanguage } from "@/context/LanguageContext"
+import { translations } from "@/lib/i18n"
 
 export default function ResultPage() {
+  const { lang } = useLanguage()
+  const t = translations[lang]
+
   const [loading, setLoading] = useState(true)
 
   const [result, setResult] = useState<{
@@ -30,9 +35,7 @@ export default function ResultPage() {
 
       setResult({ iq, personality, love })
 
-      await supabase.from("results").insert([
-        { iq, personality, love }
-      ])
+      await supabase.from("results").insert([{ iq, personality, love }])
 
       setTimeout(() => setLoading(false), 2000)
     }
@@ -43,7 +46,7 @@ export default function ResultPage() {
   if (loading || !result) {
     return (
       <div className="flex items-center justify-center h-screen bg-black text-white">
-        <p>Analyzing your brain... 🧠</p>
+        <p>{t.analyzing}</p>
       </div>
     )
   }
