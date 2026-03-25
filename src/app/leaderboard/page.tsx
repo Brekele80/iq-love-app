@@ -12,6 +12,8 @@ type Entry = {
   animal: string
 }
 
+export const dynamic = "force-dynamic"
+
 export default function LeaderboardPage() {
   const [data, setData] = useState<Entry[]>([])
 
