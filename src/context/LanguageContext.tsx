@@ -13,11 +13,13 @@ const LanguageContext = createContext<ContextType | null>(null)
 function getInitialLang(): Language {
   if (typeof window === "undefined") return "en"
 
-  const saved = localStorage.getItem("lang") as Language | null
-  if (saved) return saved
+  try {
+    const saved = localStorage.getItem("lang") as Language | null
+    if (saved === "en" || saved === "id") return saved
 
-  const browserLang = navigator.language
-  if (browserLang.startsWith("id")) return "id"
+    const browserLang = navigator.language
+    if (browserLang.startsWith("id")) return "id"
+  } catch {}
 
   return "en"
 }

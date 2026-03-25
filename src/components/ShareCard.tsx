@@ -9,9 +9,13 @@ type Props = {
   iq: number
   personality: string
   love: string
+  animal: {
+    name: string
+    description: string
+  }
 }
 
-export default function ShareCard({ iq, personality, love }: Props) {
+export default function ShareCard({ iq, personality, love, animal }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const { lang } = useLanguage()
   const t = translations[lang]
@@ -48,6 +52,11 @@ export default function ShareCard({ iq, personality, love }: Props) {
           <h2 className="text-lg opacity-70">{t.resultTitle}</h2>
 
           <p className="text-4xl font-bold mt-2">{iq}</p>
+          <p className="text-2xl mt-2">{animal.name}</p>
+
+          <p className="text-xs opacity-70 mt-1">
+            {animal.description}
+          </p>
 
           <p className="text-indigo-300">{personality}</p>
           <p className="text-pink-400">{love}</p>

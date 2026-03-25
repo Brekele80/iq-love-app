@@ -9,10 +9,11 @@ import { supabase } from "@/lib/supabase"
 import ShareCard from "@/components/ShareCard"
 import { useLanguage } from "@/context/LanguageContext"
 import { translations } from "@/lib/i18n"
+import { getAnimal } from "@/lib/animal"
 
 export default function ResultPage() {
   const { lang } = useLanguage()
-  const t = translations[lang]
+  const t = translations[lang] || translations["en"]
 
   const [loading, setLoading] = useState(true)
 
@@ -20,6 +21,10 @@ export default function ResultPage() {
     iq: number
     personality: string
     love: string
+    animal: {
+      name: string
+      description: string
+    }
   } | null>(null)
 
   useEffect(() => {
@@ -32,8 +37,14 @@ export default function ResultPage() {
       const iq = computeIQ(answers)
       const personality = getPersonality(answers)
       const love = getLoveArchetype(answers, personality)
+      const animal = getAnimal(iq)
 
-      setResult({ iq, personality, love })
+      setResult({
+        iq,
+        personality,
+        love,
+        animal
+      })
 
       await supabase.from("results").insert([{ iq, personality, love }])
 
@@ -57,6 +68,7 @@ export default function ResultPage() {
         iq={result.iq}
         personality={result.personality}
         love={result.love}
+        animal={result.animal}
       />
     </div>
   )
