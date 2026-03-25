@@ -7,6 +7,7 @@ import { getLoveArchetype } from "@/lib/love"
 import { Answer } from "@/types"
 import { supabase } from "@/lib/supabase"
 import ShareCard from "@/components/ShareCard"
+import AdBanner from "@/components/AdBanner"
 import { useLanguage } from "@/context/LanguageContext"
 import { translations } from "@/lib/i18n"
 import { getAnimal } from "@/lib/animal"
@@ -78,6 +79,8 @@ export default function ResultPage() {
         love={result.love}
         animal={result.animal}
       />
+
+      <AdBanner />
 
       <button
         onClick={() => (window.location.href = "/leaderboard")}

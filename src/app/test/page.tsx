@@ -45,7 +45,7 @@ export default function TestPage() {
       startTimeRef.current = getNow()
     } else {
       localStorage.setItem("answers", JSON.stringify(newAnswers))
-      router.push("/result")
+      router.push("/complete")
     }
   }
 

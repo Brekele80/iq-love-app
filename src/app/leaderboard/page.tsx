@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
+import AdBanner from "@/components/AdBanner"
 
 type Entry = {
   id: string
@@ -40,7 +41,7 @@ export default function LeaderboardPage() {
         {data.map((user, index) => (
           <div
             key={user.id}
-            className="bg-gray-900 p-4 rounded-xl flex justify-between items-center"
+            className="bg-gray-900 p-4 rounded-xl flex justify-between"
           >
             <div>
               <p className="font-bold">
@@ -51,11 +52,14 @@ export default function LeaderboardPage() {
               </p>
             </div>
 
-            <p className="text-lg font-bold">
-              {user.iq}
-            </p>
+            <p className="text-lg font-bold">{user.iq}</p>
           </div>
         ))}
+      </div>
+
+      {/* ✅ AD */}
+      <div className="mt-8">
+        <AdBanner />
       </div>
     </div>
   )
